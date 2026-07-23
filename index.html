@@ -1,0 +1,858 @@
+<title>SuiteMercol — Presentación Comercial</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  /* ============================================================
+     TOKENS
+     ============================================================ */
+  :root{
+    --bg:#0b1220;
+    --bg-deep:#070c16;
+    --panel:#141f36;
+    --panel-2:#1b2a47;
+    --panel-3:#22345a;
+    --line:rgba(245,158,11,.16);
+    --line-soft:rgba(148,163,184,.14);
+    --accent:#f59e0b;
+    --accent-soft:#fcd34d;
+    --accent-dim:rgba(245,158,11,.12);
+    --ink:#eef2f8;
+    --ink-dim:#93a1b8;
+    --ink-faint:#5b6b85;
+    --ok:#4ade80;
+    --warn:#f87171;
+
+    --mod-afr-a:#1e3a5f; --mod-afr-b:#0c4a6e; --mod-afr-ink:#93c5fd;
+    --mod-crt-a:#3f0e0e; --mod-crt-b:#7c1c1c; --mod-crt-ink:#f87171;
+    --mod-grp-a:#1e3a1e; --mod-grp-b:#14532d; --mod-grp-ink:#6ee7b7;
+    --mod-ana-a:#1e1b4b; --mod-ana-b:#312e81; --mod-ana-ink:#a5b4fc;
+    --mod-vrj-a:#78350f; --mod-vrj-b:#b45309; --mod-vrj-ink:#fcd34d;
+
+    --font-display:"Bahnschrift","Segoe UI",system-ui,sans-serif;
+    --font-body:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(245,158,11,.08), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(99,102,241,.08), transparent 55%),
+      var(--bg-deep);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:var(--font-display);
+    font-stretch:condensed;
+    font-weight:600;
+    letter-spacing:.2px;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+  p{margin:0;}
+  a{color:var(--accent-soft);}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--accent-soft);outline-offset:2px;border-radius:4px;}
+  ::selection{background:var(--accent-dim);}
+
+  .eyebrow{
+    font-family:var(--font-body);
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--accent-soft);
+  }
+
+  /* ============================================================
+     NAV — panel de surtidor
+     ============================================================ */
+  header.topbar{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;
+    padding:12px clamp(16px,4vw,40px);
+    background:rgba(11,18,32,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .logo{
+    width:38px;height:38px;border-radius:50%;
+    border:2px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;background:var(--panel);flex:none;
+  }
+  .brand .name{
+    font-family:var(--font-display);font-stretch:condensed;
+    font-size:1.25rem;font-weight:700;letter-spacing:.3px;
+  }
+  .brand .name b{color:var(--accent);font-weight:800;}
+  .brand .tag{font-size:.68rem;color:var(--ink-dim);letter-spacing:.4px;}
+
+  nav.tabs{
+    display:flex;gap:4px;
+    background:var(--panel);
+    border:1px solid var(--line-soft);
+    border-radius:12px;
+    padding:4px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{
+    appearance:none;border:none;background:transparent;
+    color:var(--ink-dim);
+    font-size:.82rem;font-weight:600;
+    padding:9px 14px;border-radius:8px;
+    cursor:pointer;white-space:nowrap;
+    transition:background .15s, color .15s;
+  }
+  nav.tabs button:hover{color:var(--ink);background:var(--panel-2);}
+  nav.tabs button[aria-selected="true"]{
+    color:#20140a;background:linear-gradient(180deg,var(--accent-soft),var(--accent));
+    box-shadow:0 2px 10px rgba(245,158,11,.35);
+  }
+
+  /* ============================================================
+     LAYOUT
+     ============================================================ */
+  main{max-width:1080px;margin:0 auto;padding:clamp(28px,5vw,56px) clamp(16px,4vw,40px) 80px;}
+  section.view{display:none;animation:rise .35s ease both;}
+  section.view.active{display:block;}
+  @keyframes rise{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion:reduce){
+    section.view{animation:none;}
+  }
+
+  .kicker-row{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;}
+  .section-title{font-size:clamp(1.7rem,3.4vw,2.4rem);}
+  .section-sub{color:var(--ink-dim);font-size:1rem;max-width:640px;}
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    display:grid;grid-template-columns:1.3fr .9fr;gap:40px;
+    align-items:center;
+    padding:8px 0 46px;
+  }
+  @media (max-width:820px){.hero{grid-template-columns:1fr;}}
+  .hero h1{font-size:clamp(2.1rem,5.4vw,3.4rem);line-height:1.05;margin:14px 0 18px;}
+  .hero h1 span{color:var(--accent);}
+  .hero p.lead{font-size:1.05rem;color:var(--ink-dim);max-width:520px;margin-bottom:22px;}
+  .badge-proof{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--panel);border:1px solid var(--line-soft);
+    padding:8px 14px;border-radius:999px;font-size:.82rem;color:var(--ink-dim);
+    margin-bottom:26px;
+  }
+  .dot-live{width:8px;height:8px;border-radius:50%;background:var(--ok);
+    box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(74,222,128,.55);}
+    70%{box-shadow:0 0 0 8px rgba(74,222,128,0);}
+    100%{box-shadow:0 0 0 0 rgba(74,222,128,0);}
+  }
+  @media (prefers-reduced-motion:reduce){.dot-live{animation:none;}}
+  .compat-note{
+    margin-top:8px;
+    display:flex;gap:16px;align-items:flex-start;
+    background:linear-gradient(135deg, rgba(245,158,11,.09), rgba(245,158,11,.02));
+    border:1px solid var(--line);
+    border-radius:14px;padding:20px 24px;
+  }
+  .compat-note .ico{font-size:1.6rem;flex:none;margin-top:2px;}
+  .compat-note .eyebrow{display:block;margin-bottom:6px;}
+  .compat-note p{font-size:.92rem;color:var(--ink);max-width:760px;}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    appearance:none;border:none;cursor:pointer;
+    font-family:var(--font-body);font-weight:700;font-size:.92rem;
+    padding:13px 22px;border-radius:10px;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:linear-gradient(180deg,var(--accent-soft),var(--accent));color:#20140a;
+    box-shadow:0 6px 18px rgba(245,158,11,.28);}
+  .btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line-soft);}
+
+  /* mini "pump display" en el hero */
+  .pump-display{
+    background:var(--bg-deep);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.02), 0 20px 60px rgba(0,0,0,.35);
+  }
+  .pump-display .row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .pump-display .row-top .lbl{font-size:.7rem;letter-spacing:1.2px;color:var(--ink-faint);text-transform:uppercase;}
+  .pump-screen{
+    background:#050a14;border-radius:10px;padding:20px;
+    border:1px solid rgba(148,163,184,.1);
+    text-align:center;
+  }
+  .pump-screen .status{
+    font-family:var(--font-display);font-stretch:condensed;
+    font-size:2.1rem;font-weight:700;letter-spacing:1px;
+    transition:color .25s;
+  }
+  .pump-screen .status.st-ok{color:var(--ok);}
+  .pump-screen .status.st-falta{color:var(--warn);}
+  .pump-screen .status.st-sobra{color:#38bdf8;}
+  .pump-screen .caption{font-size:.72rem;color:var(--ink-faint);margin-top:6px;letter-spacing:.4px;}
+  .pump-meta{display:flex;justify-content:space-between;margin-top:16px;font-size:.78rem;color:var(--ink-dim);}
+  .pump-meta b{color:var(--ink);font-variant-numeric:tabular-nums;}
+
+  /* ============================================================
+     FLUJO — línea de combustible
+     ============================================================ */
+  .flow-track{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:18px;
+    margin:8px 0 8px;
+  }
+  @media (max-width:900px){.flow-track{grid-template-columns:1fr;}}
+  .flow-track::before{
+    content:"";
+    position:absolute;left:0;right:0;top:34px;height:3px;
+    background:linear-gradient(90deg, rgba(245,158,11,.06), var(--accent) 20%, var(--accent) 80%, rgba(245,158,11,.06));
+    background-size:200% 100%;
+    animation:flow 4.5s linear infinite;
+    z-index:0;
+  }
+  @media (max-width:900px){.flow-track::before{display:none;}}
+  @keyframes flow{0%{background-position:0% 0;}100%{background-position:-200% 0;}}
+  @media (prefers-reduced-motion:reduce){.flow-track::before{animation:none;}}
+  .flow-step{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;}
+  .flow-step .node{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--panel-2);border:2px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:19px;
+    margin-bottom:2px;
+  }
+  .flow-step h4{font-size:1rem;margin-bottom:2px;}
+  .flow-step .who{font-size:.68rem;color:var(--accent-soft);text-transform:uppercase;letter-spacing:.8px;font-weight:700;}
+  .flow-step p{font-size:.86rem;color:var(--ink-dim);}
+
+  .flow-note{
+    margin-top:34px;
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  }
+  @media (max-width:700px){.flow-note{grid-template-columns:1fr;}}
+  .flow-note .card{
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;
+    padding:18px 20px;
+  }
+  .flow-note .card h5{font-family:var(--font-body);font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .flow-note .card p{font-size:.86rem;color:var(--ink-dim);}
+  .flow-note .card.individual{border-left:3px solid var(--mod-crt-ink);}
+  .flow-note .card.grupal{border-left:3px solid var(--mod-grp-ink);}
+
+  .callout{
+    margin-top:28px;
+    background:linear-gradient(135deg, rgba(245,158,11,.09), rgba(245,158,11,.02));
+    border:1px solid var(--line);
+    border-radius:14px;padding:20px 24px;
+    font-size:.95rem;color:var(--ink);
+  }
+  .callout b{color:var(--accent-soft);}
+
+  /* ============================================================
+     MÓDULOS
+     ============================================================ */
+  .modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+  .mod-card{
+    border-radius:16px;overflow:hidden;
+    border:1px solid var(--line-soft);
+    background:var(--panel);
+    display:flex;flex-direction:column;
+  }
+  .mod-card .head{
+    padding:22px 20px 16px;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .mod-card .icon{font-size:1.9rem;}
+  .mod-card .code{font-size:.68rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;opacity:.85;}
+  .mod-card .title{font-family:var(--font-display);font-stretch:condensed;font-size:1.25rem;font-weight:700;}
+  .mod-card .body{padding:0 20px 22px;font-size:.87rem;color:var(--ink-dim);}
+  .mod-afr .head{background:linear-gradient(160deg,var(--mod-afr-a),var(--mod-afr-b));color:var(--mod-afr-ink);}
+  .mod-crt .head{background:linear-gradient(160deg,var(--mod-crt-a),var(--mod-crt-b));color:var(--mod-crt-ink);}
+  .mod-grp .head{background:linear-gradient(160deg,var(--mod-grp-a),var(--mod-grp-b));color:var(--mod-grp-ink);}
+  .mod-ana .head{background:linear-gradient(160deg,var(--mod-ana-a),var(--mod-ana-b));color:var(--mod-ana-ink);}
+  .mod-vrj .head{background:linear-gradient(160deg,var(--mod-vrj-a),var(--mod-vrj-b));color:var(--mod-vrj-ink);}
+
+  /* ============================================================
+     BENEFICIOS
+     ============================================================ */
+  .stat-strip{
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:16px;
+    padding:24px 26px 22px;margin-bottom:22px;
+  }
+  .stat-intro p{font-size:.94rem;color:var(--ink);max-width:640px;margin-bottom:16px;}
+  .stat-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;margin-bottom:14px;}
+  .stat-tile{
+    background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:12px;
+    padding:14px 10px;text-align:center;
+  }
+  .stat-tile.main{border-color:var(--line);background:linear-gradient(160deg, rgba(245,158,11,.10), var(--bg-deep) 65%);}
+  .stat-num{
+    display:block;font-family:var(--font-display);font-stretch:condensed;
+    font-size:2rem;font-weight:700;color:var(--accent-soft);font-variant-numeric:tabular-nums;
+  }
+  .stat-tile:not(.main) .stat-num{color:var(--ink-dim);}
+  .stat-lbl{display:block;font-size:.74rem;color:var(--ink-dim);margin-top:2px;letter-spacing:.2px;}
+  .stat-source{font-size:.76rem;color:var(--ink-faint);line-height:1.5;}
+
+  .quote-block{
+    margin-top:26px;
+    border-left:3px solid var(--accent);
+    background:var(--panel);border-radius:0 14px 14px 0;
+    padding:20px 24px;
+  }
+  .quote-block p{font-size:1rem;color:var(--ink);font-style:italic;margin-bottom:8px;}
+  .quote-attr{display:block;font-size:.8rem;color:var(--accent-soft);font-weight:600;margin-bottom:14px;}
+  .quote-bridge{font-size:.86rem;color:var(--ink-dim);font-style:normal;margin-bottom:0;}
+
+  .benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+  .benefit{
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;
+    padding:20px;display:flex;gap:14px;
+  }
+  .benefit .ico{
+    flex:none;width:40px;height:40px;border-radius:10px;
+    background:var(--accent-dim);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+  }
+  .benefit h4{font-size:.98rem;margin-bottom:5px;}
+  .benefit p{font-size:.84rem;color:var(--ink-dim);}
+
+  /* ============================================================
+     PRECIO — display de bomba
+     ============================================================ */
+  .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px;}
+  @media (max-width:760px){.price-grid{grid-template-columns:1fr;}}
+  .price-card{
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:18px;
+    padding:26px;position:relative;overflow:hidden;
+  }
+  .price-card.featured{
+    border-color:var(--accent);
+    background:linear-gradient(160deg, rgba(245,158,11,.10), var(--panel) 55%);
+  }
+  .price-card .flag{
+    position:absolute;top:16px;right:16px;
+    background:var(--accent);color:#20140a;font-size:.66rem;font-weight:800;
+    letter-spacing:.6px;text-transform:uppercase;
+    padding:5px 10px;border-radius:999px;
+  }
+  .price-card .plan-name{font-size:.85rem;color:var(--ink-dim);font-weight:600;margin-bottom:14px;}
+  .price-card .digits{
+    font-family:var(--font-display);font-stretch:condensed;
+    display:flex;align-items:baseline;gap:6px;
+    font-variant-numeric:tabular-nums;
+  }
+  .price-card .digits .num{font-size:3.2rem;font-weight:700;color:var(--ink);}
+  .price-card .digits .cur{font-size:1.2rem;color:var(--accent-soft);font-weight:700;}
+  .price-card .digits .per{font-size:.95rem;color:var(--ink-dim);}
+  .price-card .fine{margin-top:12px;font-size:.85rem;color:var(--ink-dim);}
+  .price-card .fine b{color:var(--ink);}
+  .price-card .savings{
+    margin-top:14px;display:inline-block;
+    background:rgba(74,222,128,.12);color:var(--ok);
+    font-size:.8rem;font-weight:700;padding:6px 12px;border-radius:999px;
+  }
+  .install-strip{
+    background:var(--panel);border:1px solid var(--accent);border-radius:14px;
+    padding:22px 24px;margin-bottom:16px;
+    box-shadow:0 10px 28px rgba(245,158,11,.12);
+  }
+  .promo-flag{
+    display:inline-flex;align-items:center;gap:6px;
+    background:linear-gradient(180deg,var(--accent-soft),var(--accent));
+    color:#20140a;font-size:.72rem;font-weight:800;letter-spacing:.4px;
+    text-transform:uppercase;padding:6px 12px;border-radius:999px;
+    margin-bottom:16px;
+  }
+  .install-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+  .install-prices{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .install-prices .num-old{
+    font-family:var(--font-display);font-stretch:condensed;
+    font-size:1.3rem;font-weight:600;color:var(--ink-faint);
+    text-decoration:line-through;font-variant-numeric:tabular-nums;
+  }
+  .install-prices .num{font-family:var(--font-display);font-stretch:condensed;font-size:2.2rem;font-weight:700;color:var(--accent-soft);font-variant-numeric:tabular-nums;}
+  .promo-save{
+    background:rgba(74,222,128,.12);color:var(--ok);
+    font-size:.82rem;font-weight:700;padding:8px 14px;border-radius:999px;
+    white-space:nowrap;
+  }
+  .install-strip .lbl{display:block;font-size:.88rem;color:var(--ink-dim);max-width:520px;margin-top:12px;}
+
+  .btn-subscribe{
+    width:100%;margin-top:18px;
+    background:var(--panel-2);color:var(--ink-faint);
+    border:1px dashed var(--line-soft);
+    cursor:not-allowed;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn-subscribe:hover{transform:none;}
+  .soon-tag{
+    font-size:.66rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
+    background:rgba(245,158,11,.14);color:var(--accent-soft);
+    padding:3px 8px;border-radius:999px;
+  }
+  .pay-note{
+    text-align:center;font-size:.82rem;color:var(--ink-faint);
+    margin-top:6px;
+  }
+  .price-includes{display:flex;gap:22px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-dim);}
+  .price-includes span{display:flex;align-items:center;gap:6px;}
+
+  /* ============================================================
+     CONTACTO
+     ============================================================ */
+  .contact-wrap{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:24px;
+  }
+  @media (max-width:760px){.contact-wrap{grid-template-columns:1fr;}}
+  .contact-card{
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:18px;padding:30px;
+  }
+  .contact-card h3{font-size:1.5rem;margin-bottom:10px;}
+  .contact-card p.lead{color:var(--ink-dim);margin-bottom:22px;}
+  .contact-links{display:flex;flex-direction:column;gap:12px;margin-bottom:22px;}
+  .contact-link{
+    display:flex;align-items:center;gap:12px;
+    background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:12px;
+    padding:14px 16px;text-decoration:none;color:var(--ink);
+    transition:border-color .15s;
+  }
+  .contact-link:hover{border-color:var(--accent);}
+  .contact-link .ico{font-size:1.2rem;}
+  .contact-link .txt small{display:block;color:var(--ink-faint);font-size:.72rem;letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px;}
+  .contact-link .txt strong{font-size:.98rem;font-variant-numeric:tabular-nums;}
+  .proof-side{
+    background:linear-gradient(160deg, rgba(245,158,11,.10), var(--panel) 60%);
+    border:1px solid var(--line);border-radius:18px;
+    padding:30px;display:flex;flex-direction:column;justify-content:center;gap:14px;
+  }
+  .proof-side .eyebrow{margin-bottom:4px;}
+  .proof-side p{color:var(--ink-dim);font-size:.92rem;}
+
+  footer{text-align:center;padding:28px 16px 40px;color:var(--ink-faint);font-size:.78rem;}
+</style>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">⛽</div>
+    <div>
+      <div class="name">SUITE<b>MERCOL</b></div>
+      <div class="tag">Gestión operativa para estaciones de servicio</div>
+    </div>
+  </div>
+  <nav class="tabs" id="tabNav" role="tablist" aria-label="Secciones">
+    <button role="tab" data-target="inicio" aria-selected="true">Inicio</button>
+    <button role="tab" data-target="flujo" aria-selected="false">Cómo funciona</button>
+    <button role="tab" data-target="modulos" aria-selected="false">Módulos</button>
+    <button role="tab" data-target="beneficios" aria-selected="false">Beneficios</button>
+    <button role="tab" data-target="precio" aria-selected="false">Precio</button>
+    <button role="tab" data-target="contacto" aria-selected="false">Contacto</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ INICIO ============ -->
+  <section class="view active" id="inicio">
+    <div class="hero">
+      <div>
+        <span class="eyebrow">Software de gestión operativa</span>
+        <h1>El sistema que cierra, controla<br>y <span>analiza</span> cada turno de su estación.</h1>
+        <p class="lead">Según datos de Prosegur Cash relevados por la industria de combustibles, el 63% de las pérdidas operativas de una estación se origina en el manejo del efectivo, y un 11% en errores administrativos — antes que en el robo externo. SuiteMercol ordena exactamente esa parte del proceso, desde el primer turno.</p>
+        <div class="badge-proof"><span class="dot-live"></span> Shell Parada San Luis, Salta, Argentina — usa SuiteMercol con óptimos resultados</div>
+        <div class="cta-row">
+          <button class="btn btn-primary" data-goto="flujo">Ver cómo funciona</button>
+          <button class="btn btn-ghost" data-goto="precio">Ver precio</button>
+        </div>
+      </div>
+      <div class="pump-display">
+        <div class="row-top"><span class="lbl">Cierre de turno · en vivo</span><span class="lbl">CRT</span></div>
+        <div class="pump-screen">
+          <div class="status st-ok" id="pumpStatus">✓ OK</div>
+          <div class="caption" id="pumpCaption">Rendición vs. ventas — sin diferencias</div>
+        </div>
+        <div class="pump-meta">
+          <span>Operario: <b>Turno Mañana</b></span>
+          <span>Auditoría: <b>activa</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="compat-note">
+      <span class="ico">🤝</span>
+      <div>
+        <span class="eyebrow">Convive con lo que ya usa</span>
+        <p>SuiteMercol se adapta al programa facturador que ya utiliza la estación — no lo reemplaza, le suma un soporte extra. Resulta más intuitivo para el operario de playa, y los movimientos de cada uno quedan más claros que en las planillas del sistema propio de la estación.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FLUJO ============ -->
+  <section class="view" id="flujo">
+    <div class="kicker-row">
+      <span class="eyebrow">De la manguera al reporte</span>
+      <h2 class="section-title">Así se mueve un turno dentro del sistema</h2>
+      <p class="section-sub">Cinco pasos en orden. Cada paso queda registrado antes de que empiece el siguiente.</p>
+    </div>
+
+    <div class="flow-track">
+      <div class="flow-step">
+        <div class="node">⛽</div>
+        <span class="who">Operario · AFR</span>
+        <h4>Abre el turno</h4>
+        <p>Lectura inicial de cada surtidor, líquidos y GNC.</p>
+      </div>
+      <div class="flow-step">
+        <div class="node">💰</div>
+        <span class="who">Operario · CRT</span>
+        <h4>Rinde el turno</h4>
+        <p>Ventas, cuentas corrientes y medios de pago. Sobrante o faltante, calculado al instante.</p>
+      </div>
+      <div class="flow-step">
+        <div class="node">⛽</div>
+        <span class="who">Operario · AFR</span>
+        <h4>Cierra el turno</h4>
+        <p>Lectura final. Litros vendidos, verificados contra lo rendido.</p>
+      </div>
+      <div class="flow-step">
+        <div class="node">📊</div>
+        <span class="who">Automático · GRP</span>
+        <h4>Se consolida solo</h4>
+        <p>Todos los operarios del día, integrados automáticamente en una sola planilla grupal.</p>
+      </div>
+      <div class="flow-step">
+        <div class="node">📈</div>
+        <span class="who">Administración · ANA</span>
+        <h4>Se cierra el mes</h4>
+        <p>Cotejo contra el sistema, correcciones con código de auditoría, reportes listos.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      Cada turno queda registrado con el operario, el horario y el detalle de la rendición — <b>disponible para consulta en cualquier momento</b>, por usted o por administración.
+    </div>
+
+    <div class="flow-note">
+      <div class="card individual">
+        <h5>👤 Mirada individual</h5>
+        <p>Cada operario responde por su propio turno, con su propia clave. El sistema registra quién cargó cada número, y cuándo.</p>
+      </div>
+      <div class="card grupal">
+        <h5>👥 Mirada grupal</h5>
+        <p>El cierre de todos los turnos del día se integra en una única planilla grupal, disponible para su revisión.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODULOS ============ -->
+  <section class="view" id="modulos">
+    <div class="kicker-row">
+      <span class="eyebrow">Un módulo por tarea</span>
+      <h2 class="section-title">Los cinco módulos, en breve</h2>
+      <p class="section-sub">Cada uno resuelve una parte del día. Juntos, cierran el círculo completo del turno hasta el reporte del dueño.</p>
+    </div>
+
+    <div class="modules-grid">
+      <div class="mod-card mod-afr">
+        <div class="head">
+          <span class="icon">⛽</span>
+          <span class="code">AFR</span>
+          <span class="title">Aforadores</span>
+        </div>
+        <div class="body">Lectura de surtidores líquidos y GNC al abrir y cerrar el turno. Si el precio cambia a mitad de turno, separa solo los litros vendidos a precio viejo y a precio nuevo.</div>
+      </div>
+      <div class="mod-card mod-crt">
+        <div class="head">
+          <span class="icon">💰</span>
+          <span class="code">CRT</span>
+          <span class="title">Cierre de Turno</span>
+        </div>
+        <div class="body">Donde el operario rinde: ventas, cuentas corrientes, medios de pago, lubricantes. Sobrante o faltante, visible en el momento del cierre de turno.</div>
+      </div>
+      <div class="mod-card mod-grp">
+        <div class="head">
+          <span class="icon">📊</span>
+          <span class="code">GRP</span>
+          <span class="title">Planilla Grupal</span>
+        </div>
+        <div class="body">Consolida automáticamente los cierres de todos los operarios del día en una sola planilla grupal, lista para su revisión.</div>
+      </div>
+      <div class="mod-card mod-ana">
+        <div class="head">
+          <span class="icon">📈</span>
+          <span class="code">ANA</span>
+          <span class="title">Análisis Administrativo</span>
+        </div>
+        <div class="body">El panel del dueño: cotejo contra el sistema, correcciones con código de auditoría, ranking de ventas entre operarios y reportes en PDF.</div>
+      </div>
+      <div class="mod-card mod-vrj">
+        <div class="head">
+          <span class="icon">🔱</span>
+          <span class="code">VRJ-RBC</span>
+          <span class="title">Varillaje y Recibos</span>
+        </div>
+        <div class="body">Control de stock de tanques y recepción de camiones, en cualquier momento, sin depender del número de planilla del turno.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BENEFICIOS ============ -->
+  <section class="view" id="beneficios">
+    <div class="kicker-row">
+      <span class="eyebrow">Por qué importa</span>
+      <h2 class="section-title">Lo que aporta SuiteMercol a la operación diaria</h2>
+      <p class="section-sub">Una plataforma que ordena el proceso de cada turno, de la apertura al reporte administrativo.</p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-intro">
+        <p>Del total de pérdidas operativas de una estación de servicio, la mayor parte no proviene del robo externo:</p>
+      </div>
+      <div class="stat-tiles">
+        <div class="stat-tile main"><span class="stat-num">63%</span><span class="stat-lbl">Manejo del efectivo</span></div>
+        <div class="stat-tile main"><span class="stat-num">11%</span><span class="stat-lbl">Errores administrativos</span></div>
+        <div class="stat-tile"><span class="stat-num">12%</span><span class="stat-lbl">Fraude interno</span></div>
+        <div class="stat-tile"><span class="stat-num">13%</span><span class="stat-lbl">Robo externo</span></div>
+      </div>
+      <p class="stat-source">Fuente: Prosegur Cash, citado en Surtidores.com.ar. Los dos primeros rubros —manejo del efectivo y errores administrativos— son, precisamente, el proceso que ordenan los módulos CRT y ANA.</p>
+    </div>
+
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="ico">⏱️</div>
+        <div><h4>Sobrantes y faltantes, en tiempo real</h4><p>La diferencia entre lo vendido y lo rendido se visualiza en el momento del cierre de cada turno.</p></div>
+      </div>
+      <div class="benefit">
+        <div class="ico">🔎</div>
+        <div><h4>Números con orden y trazabilidad</h4><p>Cada corrección queda con código de auditoría: qué cambió, quién lo cambió y cuándo.</p></div>
+      </div>
+      <div class="benefit">
+        <div class="ico">👤</div>
+        <div><h4>Responsabilidad individual</h4><p>Cada operario cierra con su propia clave. Se sabe, sin ambigüedad, quién rindió qué.</p></div>
+      </div>
+      <div class="benefit">
+        <div class="ico">👥</div>
+        <div><h4>Visión consolidada del día</h4><p>Los cierres de todos los operarios se integran automáticamente en una sola planilla grupal.</p></div>
+      </div>
+      <div class="benefit">
+        <div class="ico">🧾</div>
+        <div><h4>Errores de facturación, con respaldo</h4><p>Las correcciones quedan registradas con fecha, autor y motivo, dentro del historial del turno.</p></div>
+      </div>
+      <div class="benefit">
+        <div class="ico">📞</div>
+        <div><h4>Mejor comunicación con administración</h4><p>Encargado y administración acceden al mismo cotejo de cada turno, sin duplicar información.</p></div>
+      </div>
+      <div class="benefit">
+        <div class="ico">📐</div>
+        <div><h4>Un proceso estandarizado</h4><p>El mismo flujo en cualquier PC de la estación — y en cada estación, si hay más de una.</p></div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>&ldquo;Facturar mucho no es lo mismo que ganar mucho. El flujo de fondos puede mostrar dinamismo, pero eso no significa necesariamente que el negocio sea rentable.&rdquo;</p>
+      <span class="quote-attr">— Oscar Bally, OP Fuel Consulting (Surtidores.com.ar)</span>
+      <p class="quote-bridge">El módulo de Análisis Administrativo (ANA) está pensado para esa distancia entre lo que entra por caja y el resultado real de cada turno: cotejo, estadísticas y reportes ordenados por operario y por período.</p>
+    </div>
+  </section>
+
+  <!-- ============ PRECIO ============ -->
+  <section class="view" id="precio">
+    <div class="kicker-row">
+      <span class="eyebrow">Inversión</span>
+      <h2 class="section-title">Precio simple, sin letra chica</h2>
+      <p class="section-sub">Una instalación única y una suscripción mensual. Sin cargos adicionales posteriores a la instalación.</p>
+    </div>
+
+    <div class="install-strip">
+      <span class="promo-flag">🔥 Promoción de lanzamiento — válida por <span id="p-promo-dias">—</span> días</span>
+      <div class="install-row">
+        <div class="install-prices">
+          <span class="num-old">U$D <span id="p-install-regular">—</span></span>
+          <span class="num">U$D <span id="p-install">—</span></span>
+        </div>
+        <div class="promo-save">Ahorra U$D <span id="p-install-save">—</span></div>
+      </div>
+      <p class="lbl">Instalación y configuración — pago único. Cubre todas las PCs que la estación necesite, sin importar cuántas sean.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="plan-name">Suscripción mensual</div>
+        <div class="digits"><span class="cur">U$D</span><span class="num" id="p-monthly">—</span><span class="per">/ mes</span></div>
+        <div class="fine">Sin compromiso de permanencia. <b>Se cancela cuando quiera.</b></div>
+        <button class="btn btn-subscribe" disabled>Suscribirme <span class="soon-tag">Próximamente</span></button>
+      </div>
+      <div class="price-card featured">
+        <span class="flag">Recomendado</span>
+        <div class="plan-name">Pago semestral (6 meses)</div>
+        <div class="digits"><span class="cur">U$D</span><span class="num" id="p-prepago">—</span><span class="per">/ mes</span></div>
+        <div class="fine">Se abona <b>U$D <span id="p-prepago-total">—</span></b> por los 6 meses, de una vez.</div>
+        <div class="savings">Ahorra U$D <span id="p-savings">—</span> frente al mes a mes</div>
+        <button class="btn btn-subscribe" disabled>Suscribirme <span class="soon-tag">Próximamente</span></button>
+      </div>
+    </div>
+    <p class="pay-note">💳 Pago directo con MercadoPago — disponible en breve. Por ahora, coordinamos el alta por WhatsApp o email.</p>
+
+    <div class="price-includes">
+      <span>✅ Incluye soporte</span>
+      <span>✅ Incluye actualizaciones</span>
+      <span>✅ Capacitación de operarios en la instalación</span>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="view" id="contacto">
+    <div class="kicker-row">
+      <span class="eyebrow">Siguiente paso</span>
+      <h2 class="section-title">¿Se lo mostramos funcionando?</h2>
+      <p class="section-sub">Una demo en vivo toma diez minutos: cierre de turno, planilla grupal y el panel de análisis del dueño.</p>
+    </div>
+
+    <div class="contact-wrap">
+      <div class="contact-card">
+        <h3>Coordinemos una demo</h3>
+        <p class="lead">Sin compromiso. Se la mostramos en su propia estación o por videollamada.</p>
+        <div class="contact-links">
+          <a class="contact-link" id="waLink" href="#" target="_blank" rel="noopener">
+            <span class="ico">💬</span>
+            <span class="txt"><small>WhatsApp</small><strong>351-2566432</strong></span>
+          </a>
+          <a class="contact-link" href="mailto:maximercol@gmail.com?subject=Consulta%20SuiteMercol&amp;body=Hola%2C%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20de%20SuiteMercol.">
+            <span class="ico">✉️</span>
+            <span class="txt"><small>Email</small><strong>maximercol@gmail.com</strong></span>
+          </a>
+        </div>
+        <button class="btn btn-primary" style="width:100%" id="waBtn">Le mostramos en 10 minutos</button>
+      </div>
+      <div class="proof-side">
+        <span class="eyebrow">Prueba en producción</span>
+        <h3 style="font-size:1.3rem;">Ya funciona todos los días en una estación real</h3>
+        <p><span class="dot-live" style="display:inline-block;margin-right:6px;"></span>Shell Parada San Luis, Salta, Argentina utiliza SuiteMercol actualmente, con óptimos resultados en el control diario de cada turno.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>SuiteMercol — Sistema de Gestión Operativa · Presentación comercial</footer>
+
+<script>
+  /* ============================================================
+     ==== PRECIOS ====
+     Los precios reales viven en pricing.json (mismo sitio, al lado
+     de este HTML) para poder editarlos sin tocar este archivo.
+     Estos valores de acá abajo son solo el respaldo por si
+     pricing.json no se puede leer (ej. abriendo el HTML como
+     archivo local, sin servidor).
+     ============================================================ */
+  const DEFAULT_PRICING = {
+    instalacionRegular: 200,    // precio regular de instalación (U$D) — se muestra tachado
+    instalacion: 150,           // precio promocional de instalación — pago único, cubre todas las PCs
+    promoDias: 30,               // vigencia de la promoción de instalación, en días
+    mensual: 25,                 // suscripción mes a mes (U$D)
+    precioMensualPrepago: 18,    // precio por mes si paga el semestre junto (U$D)
+    mesesPrepago: 6
+  };
+  let PRICING = DEFAULT_PRICING;
+
+  function renderPricing(){
+    const totalPrepago = PRICING.precioMensualPrepago * PRICING.mesesPrepago;
+    const ahorro = (PRICING.mensual - PRICING.precioMensualPrepago) * PRICING.mesesPrepago;
+    const ahorroInstalacion = PRICING.instalacionRegular - PRICING.instalacion;
+    document.getElementById('p-install').textContent = PRICING.instalacion;
+    document.getElementById('p-install-regular').textContent = PRICING.instalacionRegular;
+    document.getElementById('p-install-save').textContent = ahorroInstalacion;
+    document.getElementById('p-promo-dias').textContent = PRICING.promoDias;
+    document.getElementById('p-monthly').textContent = PRICING.mensual;
+    document.getElementById('p-prepago').textContent = PRICING.precioMensualPrepago;
+    document.getElementById('p-prepago-total').textContent = totalPrepago;
+    document.getElementById('p-savings').textContent = ahorro;
+  }
+
+  /* ============================================================
+     WHATSAPP — link con mensaje precargado
+     ============================================================ */
+  (function(){
+    const numero = '5493512566432';
+    const mensaje = 'Hola, me gustaría recibir más información de SuiteMercol.';
+    const url = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(mensaje);
+    const link = document.getElementById('waLink');
+    const btn = document.getElementById('waBtn');
+    if (link) link.setAttribute('href', url);
+    if (btn) btn.addEventListener('click', function(){ window.open(url, '_blank'); });
+  })();
+
+  /* ============================================================
+     NAVEGACIÓN POR PESTAÑAS
+     ============================================================ */
+  function activateTab(target){
+    document.querySelectorAll('nav.tabs button').forEach(function(b){
+      b.setAttribute('aria-selected', b.dataset.target === target ? 'true' : 'false');
+    });
+    document.querySelectorAll('section.view').forEach(function(s){
+      s.classList.toggle('active', s.id === target);
+    });
+    const activeSection = document.getElementById(target);
+    if (activeSection) activeSection.scrollIntoView({block:'start', behavior:'instant' in window ? 'instant' : 'auto'});
+    window.scrollTo({top:0});
+  }
+
+  document.getElementById('tabNav').addEventListener('click', function(e){
+    const btn = e.target.closest('button[data-target]');
+    if (!btn) return;
+    activateTab(btn.dataset.target);
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(function(el){
+    el.addEventListener('click', function(){ activateTab(el.dataset.goto); });
+  });
+
+  /* ============================================================
+     MINI DISPLAY "sobra/falta/ok" en el hero — decorativo
+     ============================================================ */
+  (function(){
+    const el = document.getElementById('pumpStatus');
+    const cap = document.getElementById('pumpCaption');
+    if (!el || !cap) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return; // se queda en "✓ OK" estático
+    const states = [
+      {cls:'st-ok', txt:'✓ OK', cap:'Rendición vs. ventas — sin diferencias'},
+      {cls:'st-falta', txt:'▼ FALTA $1.200', cap:'Registrada en el cierre del turno'},
+      {cls:'st-sobra', txt:'▲ SOBRA $350', cap:'Visible en el momento del cierre'}
+    ];
+    let i = 0;
+    setInterval(function(){
+      i = (i + 1) % states.length;
+      el.className = 'status ' + states[i].cls;
+      el.textContent = states[i].txt;
+      cap.textContent = states[i].cap;
+    }, 3200);
+  })();
+
+  /* ============================================================
+     Carga el precio real desde pricing.json (editable sin tocar
+     este HTML). Si falla, usa DEFAULT_PRICING de más arriba.
+     ============================================================ */
+  fetch('pricing.json', {cache: 'no-store'})
+    .then(function(r){ if (!r.ok) throw new Error('pricing.json no disponible'); return r.json(); })
+    .then(function(data){ PRICING = Object.assign({}, DEFAULT_PRICING, data); renderPricing(); })
+    .catch(function(){ PRICING = DEFAULT_PRICING; renderPricing(); });
+</script>
