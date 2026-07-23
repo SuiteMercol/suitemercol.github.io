@@ -382,6 +382,20 @@
     text-transform:uppercase;padding:6px 12px;border-radius:999px;
     margin-bottom:16px;
   }
+  .currency-toggle{
+    display:inline-flex;gap:4px;background:var(--panel);border:1px solid var(--line-soft);
+    border-radius:12px;padding:4px;margin-bottom:16px;
+  }
+  .currency-toggle button{
+    appearance:none;border:none;background:transparent;color:var(--ink-dim);
+    font-size:.82rem;font-weight:700;padding:8px 16px;border-radius:8px;cursor:pointer;
+    transition:background .15s,color .15s;
+  }
+  .currency-toggle button:hover{color:var(--ink);background:var(--panel-2);}
+  .currency-toggle button[aria-selected="true"]{
+    color:#20140a;background:linear-gradient(180deg,var(--accent-soft),var(--accent));
+    box-shadow:0 2px 10px rgba(245,158,11,.35);
+  }
   .install-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
   .install-prices{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
   .install-prices .num-old{
@@ -682,14 +696,19 @@
       <p class="section-sub">Una instalación única y una suscripción mensual. Sin cargos adicionales posteriores a la instalación.</p>
     </div>
 
+    <div class="currency-toggle" role="group" aria-label="Elegir moneda">
+      <button type="button" data-currency="ars" aria-selected="true">$ ARS</button>
+      <button type="button" data-currency="usd" aria-selected="false">U$D</button>
+    </div>
+
     <div class="install-strip">
       <span class="promo-flag">🔥 Promoción de lanzamiento — válida por <span id="p-promo-dias">—</span> días</span>
       <div class="install-row">
         <div class="install-prices">
-          <span class="num-old">U$D <span id="p-install-regular">—</span></span>
-          <span class="num">U$D <span id="p-install">—</span></span>
+          <span class="num-old"><span class="js-cur">U$D</span> <span id="p-install-regular">—</span></span>
+          <span class="num"><span class="js-cur">U$D</span> <span id="p-install">—</span></span>
         </div>
-        <div class="promo-save">Ahorra U$D <span id="p-install-save">—</span></div>
+        <div class="promo-save">Ahorra <span class="js-cur">U$D</span> <span id="p-install-save">—</span></div>
       </div>
       <p class="lbl">Instalación y configuración — pago único. Cubre todas las PCs que la estación necesite, sin importar cuántas sean.</p>
     </div>
@@ -697,16 +716,16 @@
     <div class="price-grid">
       <div class="price-card">
         <div class="plan-name">Suscripción mensual</div>
-        <div class="digits"><span class="cur">U$D</span><span class="num" id="p-monthly">—</span><span class="per">/ mes</span></div>
+        <div class="digits"><span class="cur js-cur">U$D</span><span class="num" id="p-monthly">—</span><span class="per">/ mes</span></div>
         <div class="fine">Sin compromiso de permanencia. <b>Se cancela cuando quiera.</b></div>
         <button class="btn btn-subscribe" disabled>Suscribirme <span class="soon-tag">Próximamente</span></button>
       </div>
       <div class="price-card featured">
         <span class="flag">Recomendado</span>
         <div class="plan-name">Pago semestral (6 meses)</div>
-        <div class="digits"><span class="cur">U$D</span><span class="num" id="p-prepago">—</span><span class="per">/ mes</span></div>
-        <div class="fine">Se abona <b>U$D <span id="p-prepago-total">—</span></b> por los 6 meses, de una vez.</div>
-        <div class="savings">Ahorra U$D <span id="p-savings">—</span> frente al mes a mes</div>
+        <div class="digits"><span class="cur js-cur">U$D</span><span class="num" id="p-prepago">—</span><span class="per">/ mes</span></div>
+        <div class="fine">Se abona <b><span class="js-cur">U$D</span> <span id="p-prepago-total">—</span></b> por los 6 meses, de una vez.</div>
+        <div class="savings">Ahorra <span class="js-cur">U$D</span> <span id="p-savings">—</span> frente al mes a mes</div>
         <button class="btn btn-subscribe" disabled>Suscribirme <span class="soon-tag">Próximamente</span></button>
       </div>
     </div>
@@ -765,28 +784,56 @@
      archivo local, sin servidor).
      ============================================================ */
   const DEFAULT_PRICING = {
-    instalacionRegular: 200,    // precio regular de instalación (U$D) — se muestra tachado
-    instalacion: 150,           // precio promocional de instalación — pago único, cubre todas las PCs
-    promoDias: 30,               // vigencia de la promoción de instalación, en días
-    mensual: 25,                 // suscripción mes a mes (U$D)
-    precioMensualPrepago: 18,    // precio por mes si paga el semestre junto (U$D)
-    mesesPrepago: 6
+    promoDias: 30,      // vigencia de la promoción de instalación, en días
+    mesesPrepago: 6,    // meses que cubre el pago semestral (igual en ambas monedas)
+    usd: {
+      instalacionRegular: 200,   // precio regular de instalación — se muestra tachado
+      instalacion: 150,          // precio promocional de instalación — pago único, cubre todas las PCs
+      mensual: 25,               // suscripción mes a mes
+      precioMensualPrepago: 18   // precio por mes si paga el semestre junto
+    },
+    ars: {
+      instalacionRegular: 300000,
+      instalacion: 225000,
+      mensual: 37500,
+      precioMensualPrepago: 27000
+    }
   };
   let PRICING = DEFAULT_PRICING;
+  let CURRENCY = 'ars';
+  const CUR_LABEL = {ars: '$', usd: 'U$D'};
+
+  function fmtMoney(n){
+    return CURRENCY === 'ars' ? n.toLocaleString('es-AR') : n;
+  }
 
   function renderPricing(){
-    const totalPrepago = PRICING.precioMensualPrepago * PRICING.mesesPrepago;
-    const ahorro = (PRICING.mensual - PRICING.precioMensualPrepago) * PRICING.mesesPrepago;
-    const ahorroInstalacion = PRICING.instalacionRegular - PRICING.instalacion;
-    document.getElementById('p-install').textContent = PRICING.instalacion;
-    document.getElementById('p-install-regular').textContent = PRICING.instalacionRegular;
-    document.getElementById('p-install-save').textContent = ahorroInstalacion;
+    const p = PRICING[CURRENCY];
+    const totalPrepago = p.precioMensualPrepago * PRICING.mesesPrepago;
+    const ahorro = (p.mensual - p.precioMensualPrepago) * PRICING.mesesPrepago;
+    const ahorroInstalacion = p.instalacionRegular - p.instalacion;
+    document.getElementById('p-install').textContent = fmtMoney(p.instalacion);
+    document.getElementById('p-install-regular').textContent = fmtMoney(p.instalacionRegular);
+    document.getElementById('p-install-save').textContent = fmtMoney(ahorroInstalacion);
     document.getElementById('p-promo-dias').textContent = PRICING.promoDias;
-    document.getElementById('p-monthly').textContent = PRICING.mensual;
-    document.getElementById('p-prepago').textContent = PRICING.precioMensualPrepago;
-    document.getElementById('p-prepago-total').textContent = totalPrepago;
-    document.getElementById('p-savings').textContent = ahorro;
+    document.getElementById('p-monthly').textContent = fmtMoney(p.mensual);
+    document.getElementById('p-prepago').textContent = fmtMoney(p.precioMensualPrepago);
+    document.getElementById('p-prepago-total').textContent = fmtMoney(totalPrepago);
+    document.getElementById('p-savings').textContent = fmtMoney(ahorro);
+    document.querySelectorAll('.js-cur').forEach(function(el){ el.textContent = CUR_LABEL[CURRENCY]; });
   }
+
+  function setCurrency(cur){
+    CURRENCY = cur;
+    document.querySelectorAll('.currency-toggle button').forEach(function(b){
+      b.setAttribute('aria-selected', b.dataset.currency === cur ? 'true' : 'false');
+    });
+    renderPricing();
+  }
+
+  document.querySelectorAll('.currency-toggle button').forEach(function(b){
+    b.addEventListener('click', function(){ setCurrency(b.dataset.currency); });
+  });
 
   /* ============================================================
      WHATSAPP — link con mensaje precargado
@@ -855,6 +902,6 @@
      ============================================================ */
   fetch('pricing.json', {cache: 'no-store'})
     .then(function(r){ if (!r.ok) throw new Error('pricing.json no disponible'); return r.json(); })
-    .then(function(data){ PRICING = Object.assign({}, DEFAULT_PRICING, data); renderPricing(); })
-    .catch(function(){ PRICING = DEFAULT_PRICING; renderPricing(); });
+    .then(function(data){ PRICING = Object.assign({}, DEFAULT_PRICING, data); setCurrency(CURRENCY); })
+    .catch(function(){ PRICING = DEFAULT_PRICING; setCurrency(CURRENCY); });
 </script>
