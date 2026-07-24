@@ -1,0 +1,415 @@
+<title>SuiteMercol — Capacitación para Vendedores</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="../favicon.png" sizes="any" />
+<link rel="apple-touch-icon" href="../favicon.png" />
+<style>
+  :root{
+    --bg:#0b1220; --bg-deep:#070c16;
+    --panel:#141f36; --panel-2:#1b2a47;
+    --line:rgba(245,158,11,.16); --line-soft:rgba(148,163,184,.14);
+    --accent:#f59e0b; --accent-soft:#fcd34d; --accent-dim:rgba(245,158,11,.12);
+    --ink:#eef2f8; --ink-dim:#93a1b8; --ink-faint:#5b6b85;
+    --ok:#4ade80; --warn:#f87171; --info:#38bdf8;
+    --font-display:"Bahnschrift","Segoe UI",system-ui,sans-serif;
+    --font-body:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:
+      radial-gradient(ellipse 900px 500px at 10% -10%, rgba(245,158,11,.07), transparent 60%),
+      var(--bg-deep);
+    color:var(--ink);font-family:var(--font-body);line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display);font-stretch:condensed;font-weight:600;letter-spacing:.2px;text-wrap:balance;margin:0;color:var(--ink);}
+  p{margin:0 0 12px;}
+  a{color:var(--accent-soft);text-decoration:none;}
+  ul,ol{margin:0 0 12px;padding-left:22px;}
+  li{margin-bottom:6px;}
+  b{color:var(--ink);}
+  :focus-visible{outline:2px solid var(--accent-soft);outline-offset:2px;}
+
+  .shell{display:grid;grid-template-columns:260px 1fr;max-width:1180px;margin:0 auto;}
+  @media (max-width:860px){.shell{grid-template-columns:1fr;}}
+
+  /* ===== SIDEBAR ===== */
+  aside{
+    position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    padding:26px 18px 40px;border-right:1px solid var(--line-soft);
+    background:rgba(11,18,32,.5);
+  }
+  @media (max-width:860px){
+    aside{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--line-soft);}
+  }
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .brand .logo{width:36px;height:36px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--panel);flex:none;}
+  .brand .name{font-family:var(--font-display);font-stretch:condensed;font-size:1.1rem;font-weight:700;}
+  .brand .name b{color:var(--accent);font-weight:800;}
+  .brand .tag{font-size:.66rem;color:var(--ink-dim);}
+  nav.toc{display:flex;flex-direction:column;gap:2px;}
+  nav.toc .grp-label{font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent-soft);font-weight:700;margin:16px 0 6px;}
+  nav.toc a{
+    display:block;padding:6px 10px;border-radius:8px;font-size:.85rem;color:var(--ink-dim);
+    border-left:2px solid transparent;
+  }
+  nav.toc a:hover{background:var(--panel);color:var(--ink);}
+
+  /* ===== MAIN ===== */
+  main{padding:40px clamp(20px,4vw,56px) 100px;max-width:760px;}
+  .doc-header{margin-bottom:44px;}
+  .doc-header .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-soft);}
+  .doc-header h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:10px 0 12px;}
+  .doc-header p{color:var(--ink-dim);font-size:1rem;max-width:600px;}
+
+  section.part{margin-bottom:20px;}
+  .part-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent-dim);border:1px solid var(--line);color:var(--accent-soft);
+    font-size:.72rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
+    padding:6px 14px;border-radius:999px;margin-bottom:8px;
+  }
+  section.chapter{margin:44px 0 0;padding-top:8px;scroll-margin-top:20px;}
+  section.chapter h2{font-size:1.5rem;margin-bottom:6px;}
+  section.chapter .sub{color:var(--ink-dim);font-size:.92rem;margin-bottom:18px;}
+  section.chapter h3{font-size:1.05rem;color:var(--accent-soft);margin:22px 0 8px;font-family:var(--font-body);font-stretch:normal;font-weight:700;}
+
+  hr.rule{border:none;border-top:1px solid var(--line-soft);margin:40px 0;}
+
+  /* ===== CAJAS ===== */
+  .box{border-radius:12px;padding:16px 20px;margin:16px 0;border:1px solid var(--line-soft);background:var(--panel);}
+  .box .box-lbl{font-size:.7rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .box p:last-child{margin-bottom:0;}
+  .box-script{border-color:var(--accent);background:linear-gradient(135deg,rgba(245,158,11,.10),var(--panel) 60%);}
+  .box-script .box-lbl{color:var(--accent-soft);}
+  .box-script .say{font-size:1.02rem;font-style:italic;color:var(--ink);}
+  .box-tip{border-left:3px solid var(--ok);}
+  .box-tip .box-lbl{color:var(--ok);}
+  .box-warn{border-left:3px solid var(--warn);}
+  .box-warn .box-lbl{color:var(--warn);}
+  .box-info{border-left:3px solid var(--info);}
+  .box-info .box-lbl{color:var(--info);}
+
+  /* ===== TABLA ROLES ===== */
+  .roles-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0;}
+  .role-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:14px 18px;display:flex;gap:14px;}
+  .role-card .who{flex:none;width:120px;font-weight:700;color:var(--accent-soft);font-size:.9rem;}
+  .role-card p{margin:0;font-size:.88rem;color:var(--ink-dim);}
+
+  /* ===== STAT STRIP ===== */
+  .stat-strip{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:20px 22px;margin:18px 0;}
+  .stat-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin:12px 0;}
+  .stat-tile{background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:10px;padding:12px 8px;text-align:center;}
+  .stat-tile.hi{border-color:var(--line);background:linear-gradient(160deg,rgba(245,158,11,.10),var(--bg-deep) 65%);}
+  .stat-num{display:block;font-family:var(--font-display);font-stretch:condensed;font-size:1.7rem;font-weight:700;color:var(--accent-soft);}
+  .stat-tile:not(.hi) .stat-num{color:var(--ink-dim);}
+  .stat-lbl{display:block;font-size:.7rem;color:var(--ink-dim);margin-top:2px;}
+  .stat-source{font-size:.75rem;color:var(--ink-faint);margin-top:8px;}
+
+  /* ===== OBJECIONES ===== */
+  .obj-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 20px;margin:14px 0;}
+  .obj-tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent-soft);background:var(--accent-dim);padding:4px 10px;border-radius:999px;margin-bottom:10px;}
+  .obj-said{font-size:.94rem;color:var(--ink-dim);font-style:italic;margin-bottom:10px;}
+  .obj-resp{font-size:.96rem;color:var(--ink);}
+
+  /* ===== PRECIO ===== */
+  .price-row{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0;}
+  .price-chip{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:14px 18px;flex:1;min-width:160px;}
+  .price-chip .lbl{font-size:.74rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+  .price-chip .num{font-family:var(--font-display);font-stretch:condensed;font-size:1.5rem;font-weight:700;color:var(--accent-soft);font-variant-numeric:tabular-nums;}
+  .price-chip .num.old{font-size:1rem;color:var(--ink-faint);text-decoration:line-through;margin-right:6px;}
+
+  /* ===== CHECKLIST ===== */
+  .checklist{list-style:none;padding:0;margin:16px 0;}
+  .checklist li{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:.92rem;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:"☐";color:var(--accent-soft);font-size:1.1rem;flex:none;}
+
+  footer{text-align:center;padding:30px 16px 50px;color:var(--ink-faint);font-size:.78rem;}
+</style>
+
+<div class="shell">
+  <aside>
+    <div class="brand">
+      <div class="logo">⛽</div>
+      <div>
+        <div class="name">SUITE<b>MERCOL</b></div>
+        <div class="tag">Capacitación de vendedores</div>
+      </div>
+    </div>
+    <nav class="toc">
+      <span class="grp-label">Parte 1 · El puesto</span>
+      <a href="#que-vendes">Qué vas a vender</a>
+      <a href="#como-trabajo">Cómo es el trabajo</a>
+      <a href="#ritmo">Ritmo y registro de visitas</a>
+      <a href="#conducta">Código de conducta</a>
+      <a href="#checklist">Antes de salir a la calle</a>
+      <span class="grp-label">Parte 2 · Tutorial de venta</span>
+      <a href="#producto">1. Conocé el producto</a>
+      <a href="#negocio-cliente">2. El negocio del cliente</a>
+      <a href="#abordaje">3. Cómo abordar sin cita</a>
+      <a href="#preguntas">4. Preguntas clave</a>
+      <a href="#objeciones">5. Manejo de objeciones</a>
+      <a href="#cierre">6. Cierre</a>
+      <a href="#persistencia">7. Persistencia</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="doc-header">
+      <span class="eyebrow">Material interno · no mostrar al cliente</span>
+      <h1>Capacitación para Vendedores</h1>
+      <p>Esta guía te prepara para salir a ofrecer SuiteMercol en estaciones de servicio. Leela una vez completa antes de tu primera visita, y volvé al índice cuando necesites repasar algo puntual.</p>
+    </div>
+
+    <!-- ======================= PARTE 1 ======================= -->
+    <section class="part">
+      <span class="part-badge">Parte 1 · El puesto de trabajo</span>
+
+      <section class="chapter" id="que-vendes">
+        <h2>Qué vas a vender</h2>
+        <p>SuiteMercol es un sistema de gestión operativa para estaciones de servicio: ordena el cierre de cada turno, detecta sobrantes y faltantes en el momento, consolida todos los operarios del día automáticamente, y le da al dueño y a administración un panel de análisis y cotejo. Shell Parada San Luis, Salta, Argentina utiliza SuiteMercol actualmente, con óptimos resultados.</p>
+        <p>Tu trabajo <b>no es explicarle el programa botón por botón</b> a nadie en la calle. Tu trabajo es despertar interés suficiente para conseguir una demo de 10 minutos con la persona que decide.</p>
+      </section>
+
+      <section class="chapter" id="como-trabajo">
+        <h2>Cómo es el trabajo, día a día</h2>
+        <p>Vas a visitar estaciones de servicio en persona, <b>sin cita previa</b>. Esto se llama venta "a puerta fría", y tiene reglas propias que vas a ver en la Parte 2. Por ahora, lo esencial:</p>
+        <h3>A quién buscar</h3>
+        <p>Pedí siempre por <b>el encargado de turno</b> o <b>la persona de administración</b>. Nunca preguntes en general "¿está el dueño?" — el dueño rara vez está en el mostrador, y perdés tiempo. El encargado y administración son quienes sufren el problema todos los días, y son quienes pueden después abrirte la puerta al dueño.</p>
+        <h3>Cuándo ir</h3>
+        <p>Evitá las horas pico (mediodía, entrada/salida de turnos). Las horas valle de la mañana o media tarde son mejores: hay menos apuro y más chance de que te presten atención de verdad.</p>
+        <div class="box box-info">
+          <div class="box-lbl">🎯 El objetivo real de cada visita</div>
+          <p>No es cerrar la venta ahí mismo. Rara vez pasa en el primer minuto. El objetivo real es <b>validar interés y conseguir una segunda interacción</b>: una demo, una reunión con quien decide, o al menos un horario y un contacto para volver.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="ritmo">
+        <h2>Ritmo de trabajo y registro de visitas</h2>
+        <p>Vas a visitar muchas estaciones en pocas semanas. Sin un registro simple, vas a perder el hilo de quién dijo qué. Después de cada visita, anotá:</p>
+        <ul>
+          <li>Estación y con quién hablaste (nombre y rol).</li>
+          <li>Qué te dijo — interesado, "lo pienso", ocupado, no atendieron.</li>
+          <li>Cuándo volver o hacer el siguiente contacto.</li>
+        </ul>
+        <p>Priorizá estaciones de la misma marca/zona donde ya tengamos referencia (hoy: Shell Parada San Luis, Salta) antes de avanzar a otras banderas — la referencia de un cliente real abre más puertas que llegar de cero.</p>
+      </section>
+
+      <section class="chapter" id="conducta">
+        <h2>Código de conducta</h2>
+        <div class="box box-warn">
+          <div class="box-lbl">⚠️ No hagas esto</div>
+          <p>No hables mal del sistema, facturador o controlador que la estación ya usa. No prometas funciones que el programa no tiene. No presiones de forma invasiva si te dicen que no — insistir bien y presionar mal son cosas distintas (lo vemos en la sección 7).</p>
+        </div>
+        <div class="box box-tip">
+          <div class="box-lbl">✅ Hacé esto</div>
+          <p>Vestite prolijo, sé puntual si coordinaste horario, y si no sabés responder algo técnico con precisión, es mejor decir "eso te lo confirmo" que inventar una respuesta.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="checklist">
+        <h2>Antes de salir a la calle</h2>
+        <ul class="checklist">
+          <li>Guion de apertura repasado (sección 3)</li>
+          <li>Precio memorizado sin titubear (instalación, mensual, semestral)</li>
+          <li>Las 4 objeciones y sus respuestas repasadas (sección 5)</li>
+          <li>Celular cargado con el WhatsApp de contacto a mano</li>
+          <li>Hoja de bolsillo impresa o guardada en el celular</li>
+          <li>Cuaderno o notas para registrar cada visita</li>
+        </ul>
+      </section>
+    </section>
+
+    <hr class="rule">
+
+    <!-- ======================= PARTE 2 ======================= -->
+    <section class="part">
+      <span class="part-badge">Parte 2 · Tutorial de venta</span>
+
+      <section class="chapter" id="producto">
+        <h2>1. Conocé el producto</h2>
+        <p class="sub">Tenés que poder decir esto sin dudar, en cualquier orden que te lo pregunten.</p>
+
+        <h3>El flujo de un turno</h3>
+        <p>Operario abre el turno (lectura de surtidores) → rinde el turno (ventas, cuentas corrientes, medios de pago — sobrante o faltante calculado al instante) → cierra el turno (lectura final) → el sistema consolida solo todos los operarios del día → administración cierra el mes (cotejo, correcciones con auditoría, reportes).</p>
+
+        <h3>Los 5 módulos, en una línea</h3>
+        <ul>
+          <li><b>AFR</b> — lectura de surtidores al abrir y cerrar el turno.</li>
+          <li><b>CRT</b> — donde el operario rinde: ventas, cuentas corrientes, medios de pago.</li>
+          <li><b>GRP</b> — consolida solo los cierres de todos los operarios del día.</li>
+          <li><b>ANA</b> — el panel de administración: cotejo, correcciones auditadas, reportes.</li>
+          <li><b>VRJ-RBC</b> — control de tanques y recepción de camiones de combustible.</li>
+        </ul>
+
+        <div class="box box-info">
+          <div class="box-lbl">🤝 La aclaración más importante</div>
+          <p>SuiteMercol <b>no reemplaza el programa facturador</b> que ya usa la estación. Es un respaldo adicional que suma sobre él: más intuitivo para el operario de playa, y con los movimientos de cada uno más claros que en las planillas del sistema propio de la estación. Decilo temprano en la conversación — es lo que más objeciones evita.</p>
+        </div>
+
+        <h3>El precio (memorizalo)</h3>
+        <div class="price-row">
+          <div class="price-chip"><div class="lbl">Instalación</div><div class="num"><span class="num old" id="p-install-regular">—</span>U$D <span id="p-install">—</span></div></div>
+          <div class="price-chip"><div class="lbl">Mensual</div><div class="num">U$D <span id="p-monthly">—</span></div></div>
+          <div class="price-chip"><div class="lbl">Semestral (6 meses)</div><div class="num">U$D <span id="p-prepago">—</span>/mes</div></div>
+        </div>
+        <p>La instalación de U$D <span id="p-install-b">—</span> es promoción de lanzamiento válida por <span id="p-promo-dias">—</span> días (precio regular U$D <span id="p-install-regular-b">—</span>) y cubre <b>todas las PCs</b> que la estación necesite, sin importar cuántas sean. Incluye soporte y actualizaciones.</p>
+      </section>
+
+      <section class="chapter" id="negocio-cliente">
+        <h2>2. Entendé el negocio del cliente</h2>
+        <p class="sub">Vas a hablar con roles distintos según el día. A cada uno le importa algo diferente.</p>
+
+        <div class="roles-grid">
+          <div class="role-card"><div class="who">Operario</div><p>Despacha combustible y rinde su turno. No suele ser quien decide comprar, pero es quien va a usar el sistema todos los días.</p></div>
+          <div class="role-card"><div class="who">Encargado</div><p>Supervisa turnos, controla cierres. Le importa no cargar con la culpa de un descuadre que no puede explicar, y ahorrarse papeleo.</p></div>
+          <div class="role-card"><div class="who">Administración</div><p>Hace el cotejo y la facturación. Le importa no perseguir gente por planillas y tener todo ordenado para el cierre del mes.</p></div>
+          <div class="role-card"><div class="who">Dueño</div><p>Rara vez está en el mostrador. Le importa la visibilidad real del negocio, no solo el movimiento de caja.</p></div>
+        </div>
+
+        <div class="stat-strip">
+          <p>Este dato es tu mejor apertura de conversación con cualquiera de los cuatro roles — es real, no un supuesto:</p>
+          <div class="stat-tiles">
+            <div class="stat-tile hi"><span class="stat-num">63%</span><span class="stat-lbl">Manejo del efectivo</span></div>
+            <div class="stat-tile hi"><span class="stat-num">11%</span><span class="stat-lbl">Errores administrativos</span></div>
+            <div class="stat-tile"><span class="stat-num">12%</span><span class="stat-lbl">Fraude interno</span></div>
+            <div class="stat-tile"><span class="stat-num">13%</span><span class="stat-lbl">Robo externo</span></div>
+          </div>
+          <p class="stat-source">Composición de pérdidas operativas en una estación de servicio. Fuente: Prosegur Cash, citado en Surtidores.com.ar. El 74% de la pérdida no es robo — es exactamente lo que ordenan CRT y ANA.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="abordaje">
+        <h2>3. Cómo abordar sin cita previa</h2>
+        <p class="sub">Se llama venta "a puerta fría". Tiene técnica propia, no es improvisar.</p>
+
+        <h3>Primera impresión</h3>
+        <p>Saludá con firmeza, mirá a los ojos, mostrate seguro. Vestite prolijo. Tenés menos de 10 segundos antes de que decidan si te prestan atención o no.</p>
+
+        <div class="box box-script">
+          <div class="box-lbl">📢 Guion de apertura</div>
+          <p class="say">"Buen día, ¿está el encargado un momento? Represento a SuiteMercol, un sistema de gestión para estaciones de servicio que Shell Parada San Luis, Salta, Argentina utiliza actualmente con óptimos resultados — cierre de turno digital, control de sobrantes y faltantes, planilla grupal automática. ¿Tiene diez minutos para que le muestre cómo funciona?"</p>
+        </div>
+
+        <h3>Si no está la persona indicada</h3>
+        <div class="box-script box" style="border-color:var(--line-soft);background:var(--panel);">
+          <p class="say">"No hay problema. ¿A qué hora suele estar el encargado? Le puedo dejar mi contacto y paso otro día a esa hora."</p>
+        </div>
+        <p>Nunca te vayas sin un horario para volver o un contacto. Volver a la misma hora en que te dijeron que sí estaba, es mejor que volver al azar.</p>
+      </section>
+
+      <section class="chapter" id="preguntas">
+        <h2>4. Preguntas clave para abrir la conversación</h2>
+        <p class="sub">Cuatro tipos de pregunta, en este orden. Escuchá más de lo que hablás — cada respuesta te dice qué beneficio resaltar después.</p>
+
+        <h3>Situación</h3>
+        <div class="box-script box" style="border-color:var(--line-soft);background:var(--panel);"><p class="say">"¿Cómo hacen hoy el cierre de cada turno?" / "¿Cuántos operarios rotan por día?"</p></div>
+        <h3>Problema</h3>
+        <div class="box-script box" style="border-color:var(--line-soft);background:var(--panel);"><p class="say">"¿Tuvieron alguna vez un descuadre de caja del que no lograron entender bien el origen?" / "¿Cómo se entera hoy el dueño de cómo cerró cada turno?"</p></div>
+        <h3>Implicación</h3>
+        <div class="box-script box" style="border-color:var(--line-soft);background:var(--panel);"><p class="say">"¿Cuánto tiempo les lleva revisar eso cuando pasa?" / "¿Eso afecta la confianza con los operarios cuando no se puede probar qué pasó?"</p></div>
+        <h3>Necesidad de solución</h3>
+        <div class="box-script box" style="border-color:var(--line-soft);background:var(--panel);"><p class="say">"¿Le serviría ver eso resuelto apenas se cierra el turno, con el registro de quién hizo cada movimiento?"</p></div>
+      </section>
+
+      <section class="chapter" id="objeciones">
+        <h2>5. Manejo de objeciones</h2>
+        <p class="sub">Casi todas las objeciones caen en una de estas cuatro categorías. Escuchá completa la objeción antes de responder.</p>
+
+        <div class="obj-card">
+          <span class="obj-tag">Precio</span>
+          <div class="obj-said">"Es caro" / "No tengo presupuesto ahora."</div>
+          <div class="obj-resp">"Entiendo. Pero el 74% de las pérdidas operativas de una estación viene del manejo del efectivo y errores administrativos, no del robo — es justamente lo que este sistema ordena. Además la instalación tiene una promoción de lanzamiento por tiempo limitado, y se puede empezar con la suscripción mes a mes."</div>
+        </div>
+        <div class="obj-card">
+          <span class="obj-tag">Necesidad</span>
+          <div class="obj-said">"Ya tengo un sistema/facturador, no lo necesito."</div>
+          <div class="obj-resp">"No lo reemplaza — convive con el que ya usan. Es un respaldo adicional, más simple para el operario en el día a día, y deja mucho más claro el movimiento de cada uno de lo que hoy muestra el sistema propio de la estación."</div>
+        </div>
+        <div class="obj-card">
+          <span class="obj-tag">Tiempo</span>
+          <div class="obj-said">"Ahora no tengo tiempo para esto."</div>
+          <div class="obj-resp">"Totalmente, no le quito más de diez minutos. ¿Coordinamos un horario puntual esta semana, o prefiere que se lo muestre por videollamada?"</div>
+        </div>
+        <div class="obj-card">
+          <span class="obj-tag">Confianza</span>
+          <div class="obj-said">"No los conozco" / "¿Esto es serio?"</div>
+          <div class="obj-resp">"Es totalmente entendible. El sistema ya lo utiliza Shell Parada San Luis, Salta, Argentina, con óptimos resultados — no es una idea, es algo que ya está funcionando."</div>
+        </div>
+      </section>
+
+      <section class="chapter" id="cierre">
+        <h2>6. Cierre — pedí el compromiso concreto</h2>
+        <p>Nunca te vayas de una visita sin dejar algo concreto en marcha. Elegí una de estas tres salidas:</p>
+        <ul>
+          <li><b>Agendar la demo</b> — día y hora específicos, anotados por ambos.</li>
+          <li><b>Dejar el WhatsApp</b> — con el mensaje ya pensado, para que solo tengan que apretar enviar.</li>
+          <li><b>Conseguir el contacto de quien decide</b> — si no es la persona correcta, un nombre y un horario vale más que una tarjeta sin nombre.</li>
+        </ul>
+        <div class="box box-script">
+          <div class="box-lbl">📢 Frase de cierre</div>
+          <p class="say">"Perfecto, entonces quedamos el [día] a las [hora] para mostrarle cómo funciona. Le mando un recordatorio por WhatsApp el día anterior."</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="persistencia">
+        <h2>7. Persistencia — la parte más importante</h2>
+        <p class="sub">Un "no" hoy no es un "no" para siempre. Estos números son reales, no motivacionales de póster de oficina.</p>
+
+        <div class="stat-strip">
+          <div class="stat-tiles">
+            <div class="stat-tile hi"><span class="stat-num">44%</span><span class="stat-lbl">Abandona tras el 1er intento</span></div>
+            <div class="stat-tile hi"><span class="stat-num">60%</span><span class="stat-lbl">De clientes dice "no" hasta 4 veces antes del "sí"</span></div>
+            <div class="stat-tile"><span class="stat-num">5–8</span><span class="stat-lbl">Contactos en promedio para cerrar una venta B2B</span></div>
+          </div>
+          <p class="stat-source">Estadísticas citadas en estudios y publicaciones especializadas en ventas B2B (tisconsulting.org, antoniosanchezmarti.es, smf360.com). La conclusión que importa: la mayoría de los vendedores se rinde mucho antes de lo que haría falta para cerrar.</p>
+        </div>
+
+        <div class="box box-tip">
+          <div class="box-lbl">✅ Insistir bien ≠ insistir mal</div>
+          <p>Persistir con respeto — volver en 3 o 4 días, en un horario mejor, con algo nuevo para decir — supera por lejos a un solo contacto intenso. Insistir mal es volver todos los días seguidos o presionar cuando ya te dijeron que no por esta semana. La diferencia es el espacio entre cada intento y el tono con el que volvés.</p>
+        </div>
+
+        <h3>Regla práctica</h3>
+        <ul>
+          <li>Si hoy no te atendieron: anotá cuándo volver (3-4 días), no vuelvas al día siguiente.</li>
+          <li>Si te dijeron "lo pienso": hacé el seguimiento por WhatsApp a las 48hs, no antes ni mucho después.</li>
+          <li>Contá cada "no" como un paso — necesitás en promedio varios contactos, no uno solo, para cerrar.</li>
+          <li>Un "no" es información sobre el momento, no un juicio sobre vos ni sobre el producto.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+</div>
+
+<footer>SuiteMercol — Capacitación interna de vendedores · No compartir con clientes</footer>
+
+<script>
+  /* ==== PRECIOS ====
+     Los precios reales viven en pricing.json (raíz del sitio) para poder
+     editarlos sin tocar este archivo. Este material de vendedores es de uso
+     interno y siempre muestra U$D. Los valores de acá abajo son solo el
+     respaldo por si pricing.json no se puede leer. ==== */
+  const DEFAULT_PRICING = {
+    instalacionRegular: 200,
+    instalacion: 150,
+    promoDias: 30,
+    mensual: 25,
+    precioMensualPrepago: 18,
+    mesesPrepago: 6
+  };
+  function set(id, val){ const el = document.getElementById(id); if (el) el.textContent = val; }
+  function render(p){
+    set('p-install', p.instalacion);
+    set('p-install-b', p.instalacion);
+    set('p-install-regular', p.instalacionRegular + ' → ');
+    set('p-install-regular-b', p.instalacionRegular);
+    set('p-promo-dias', p.promoDias);
+    set('p-monthly', p.mensual);
+    set('p-prepago', p.precioMensualPrepago);
+  }
+  fetch('../pricing.json', {cache: 'no-store'})
+    .then(function(r){ if (!r.ok) throw new Error('pricing.json no disponible'); return r.json(); })
+    .then(function(data){ render(Object.assign({}, DEFAULT_PRICING, data.usd, {promoDias: data.promoDias, mesesPrepago: data.mesesPrepago})); })
+    .catch(function(){ render(DEFAULT_PRICING); });
+</script>

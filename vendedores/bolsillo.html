@@ -1,0 +1,125 @@
+<title>SuiteMercol — Hoja de Bolsillo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="../favicon.png" sizes="any" />
+<link rel="apple-touch-icon" href="../favicon.png" />
+<style>
+  :root{
+    --bg-deep:#070c16; --panel:#141f36;
+    --line:rgba(245,158,11,.16); --line-soft:rgba(148,163,184,.14);
+    --accent:#f59e0b; --accent-soft:#fcd34d; --accent-dim:rgba(245,158,11,.12);
+    --ink:#eef2f8; --ink-dim:#93a1b8; --ink-faint:#5b6b85; --ok:#4ade80;
+    --font-display:"Bahnschrift","Segoe UI",system-ui,sans-serif;
+    --font-body:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg-deep);color:var(--ink);font-family:var(--font-body);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2{font-family:var(--font-display);font-stretch:condensed;font-weight:700;margin:0;color:var(--ink);}
+  p{margin:0;}
+  b{color:var(--ink);}
+  .wrap{max-width:640px;margin:0 auto;padding:26px 20px 50px;}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .brand .logo{width:34px;height:34px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--panel);flex:none;}
+  .brand .name{font-size:1.05rem;}
+  .brand .name b{color:var(--accent);}
+  .brand .tag{font-size:.66rem;color:var(--ink-dim);}
+
+  .card{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
+  .card h2{font-size:.98rem;color:var(--accent-soft);margin-bottom:8px;font-family:var(--font-body);font-stretch:normal;font-weight:800;letter-spacing:.3px;text-transform:uppercase;font-size:.72rem;}
+  .say{font-style:italic;font-size:.92rem;color:var(--ink);}
+
+  .obj-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft);}
+  .obj-row:last-child{border-bottom:none;}
+  .obj-row .tag{flex:none;width:88px;font-size:.72rem;font-weight:800;color:var(--accent-soft);text-transform:uppercase;padding-top:2px;}
+  .obj-row .resp{font-size:.86rem;color:var(--ink-dim);}
+
+  .price-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .price-chip{flex:1;min-width:120px;background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;text-align:center;}
+  .price-chip .lbl{font-size:.68rem;color:var(--ink-dim);text-transform:uppercase;}
+  .price-chip .num{font-family:var(--font-display);font-stretch:condensed;font-size:1.3rem;font-weight:700;color:var(--accent-soft);}
+  .price-chip .num .old{font-size:.85rem;color:var(--ink-faint);text-decoration:line-through;margin-right:4px;}
+
+  .stat-line{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+  .stat-line span{font-size:.8rem;color:var(--ink-dim);}
+  .stat-line b{color:var(--accent-soft);}
+
+  .contact{display:flex;gap:14px;flex-wrap:wrap;font-size:.86rem;}
+  .contact a{color:var(--accent-soft);text-decoration:none;}
+
+  @media print{
+    body{background:#fff;color:#111;}
+    .card{background:#f8fafc;border-color:#e2e8f0;}
+  }
+</style>
+
+<div class="wrap">
+  <div class="brand">
+    <div class="logo">⛽</div>
+    <div>
+      <div class="name">SUITE<b>MERCOL</b></div>
+      <div class="tag">Hoja de bolsillo — llevar a cada visita</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📢 Apertura</h2>
+    <p class="say">"Buen día, ¿está el encargado un momento? Represento a SuiteMercol, un sistema de gestión para estaciones de servicio que Shell Parada San Luis, Salta, Argentina utiliza actualmente con óptimos resultados. ¿Tiene diez minutos para que le muestre cómo funciona?"</p>
+  </div>
+
+  <div class="card">
+    <h2>🤝 Si preguntan si reemplaza algo</h2>
+    <p class="say">"No reemplaza el facturador que ya usan — es un respaldo adicional, más simple para el operario y más claro en los movimientos de cada uno."</p>
+  </div>
+
+  <div class="card">
+    <h2>Objeciones</h2>
+    <div class="obj-row"><span class="tag">Precio</span><span class="resp">74% de la pérdida operativa es manejo de efectivo + errores administrativos, no robo. Promo de instalación por tiempo limitado + plan mes a mes.</span></div>
+    <div class="obj-row"><span class="tag">Necesidad</span><span class="resp">No reemplaza el facturador, lo complementa.</span></div>
+    <div class="obj-row"><span class="tag">Tiempo</span><span class="resp">Demo de 10 minutos, coordinamos horario o videollamada.</span></div>
+    <div class="obj-row"><span class="tag">Confianza</span><span class="resp">Shell Parada San Luis, Salta, Argentina lo utiliza actualmente, con óptimos resultados.</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Precio</h2>
+    <div class="price-row">
+      <div class="price-chip"><div class="lbl">Instalación</div><div class="num"><span class="old" id="p-install-regular">—</span>U$D <span id="p-install">—</span></div></div>
+      <div class="price-chip"><div class="lbl">Mensual</div><div class="num">U$D <span id="p-monthly">—</span></div></div>
+      <div class="price-chip"><div class="lbl">Semestral</div><div class="num">U$D <span id="p-prepago">—</span>/mes</div></div>
+    </div>
+    <div class="stat-line"><span>Promo de instalación válida <b><span id="p-promo-dias">—</span> días</b> · incluye soporte y actualizaciones.</span></div>
+  </div>
+
+  <div class="card">
+    <h2>🔁 Si te dicen que no</h2>
+    <div class="stat-line">
+      <span><b>44%</b> de los vendedores abandona tras el 1er intento.</span>
+      <span><b>60%</b> de los clientes dice "no" hasta 4 veces antes del "sí".</span>
+      <span>Se necesitan en promedio <b>5–8</b> contactos para cerrar.</span>
+    </div>
+    <p style="margin-top:8px;font-size:.86rem;color:var(--ink);">No te vayas sin anotar cuándo volver. Un "no" hoy no es un "no" definitivo.</p>
+  </div>
+
+  <div class="card">
+    <h2>Contacto</h2>
+    <div class="contact">
+      <a href="https://wa.me/5493512566432?text=Hola%2C%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20de%20SuiteMercol.">💬 WhatsApp 351-2566432</a>
+      <a href="mailto:maximercol@gmail.com">✉️ maximercol@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* Precios reales en pricing.json (raíz del sitio); esto es solo respaldo. */
+  const DEFAULT_PRICING = { instalacionRegular:200, instalacion:150, promoDias:30, mensual:25, precioMensualPrepago:18 };
+  function set(id, val){ const el = document.getElementById(id); if (el) el.textContent = val; }
+  function render(p){
+    set('p-install', p.instalacion);
+    set('p-install-regular', p.instalacionRegular + ' → ');
+    set('p-promo-dias', p.promoDias);
+    set('p-monthly', p.mensual);
+    set('p-prepago', p.precioMensualPrepago);
+  }
+  fetch('../pricing.json', {cache: 'no-store'})
+    .then(function(r){ if (!r.ok) throw new Error('pricing.json no disponible'); return r.json(); })
+    .then(function(data){ render(Object.assign({}, DEFAULT_PRICING, data.usd, {promoDias: data.promoDias})); })
+    .catch(function(){ render(DEFAULT_PRICING); });
+</script>
