@@ -2,10 +2,10 @@
   "promoDias": 30,
   "mesesPrepago": 6,
   "usd": {
-    "instalacionRegular": 200,
-    "instalacion": 150,
-    "mensual": 25,
-    "precioMensualPrepago": 18
+  "instalacionRegular": 299,
+    "instalacion": 249,
+    "mensual": 54,
+    "precioMensualPrepago": 44.
   },
   "ars": {
     "instalacionRegular": 300000,
