@@ -2,7 +2,7 @@
   "promoDias": 30,
   "mesesPrepago": 6,
   "usd": {
-  "instalacionRegular": 299,
+    "instalacionRegular": 299,
     "instalacion": 249,
     "mensual": 54,
     "precioMensualPrepago": 44
