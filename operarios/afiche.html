@@ -1,0 +1,109 @@
+<title>SuiteMercol — Los pasos de tu turno</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="../favicon.png" sizes="any" />
+<link rel="apple-touch-icon" href="../favicon.png" />
+<style>
+  :root{
+    --ink:#111827; --ink-dim:#475569; --line:#dbe2ea;
+    --accent:#b45309; --accent-bg:#fff7ec; --accent-strong:#92400e;
+    --ok-bg:#f0fdf4; --ok-line:#bbf7d0; --ok-ink:#166534;
+    --font-display:"Bahnschrift","Segoe UI",system-ui,sans-serif;
+    --font-body:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{background:#fff;color:var(--ink);font-family:var(--font-body);line-height:1.4;}
+  h1,h2{font-family:var(--font-display);font-stretch:condensed;font-weight:800;margin:0;color:var(--accent-strong);}
+  p{margin:0;}
+
+  .sheet{max-width:900px;margin:0 auto;padding:28px 34px 36px;}
+
+  header{display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--accent);padding-bottom:14px;margin-bottom:18px;}
+  header .logo{width:44px;height:44px;border-radius:50%;border:3px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none;}
+  header .name{font-family:var(--font-display);font-stretch:condensed;font-size:1.5rem;font-weight:800;color:var(--ink);}
+  header .name b{color:var(--accent);}
+  header .tag{font-size:.82rem;color:var(--ink-dim);}
+
+  h1{font-size:1.5rem;margin-bottom:4px;}
+  .subtitle{color:var(--ink-dim);font-size:.92rem;margin-bottom:20px;}
+
+  .steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+  .step{display:flex;gap:14px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;}
+  .step .n{
+    flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;
+    font-family:var(--font-display);font-stretch:condensed;font-weight:800;font-size:1.05rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .step .t{font-weight:700;font-size:1rem;color:var(--ink);}
+  .step .d{font-size:.86rem;color:var(--ink-dim);}
+
+  .callout{
+    background:var(--accent-bg);border:1.5px solid var(--accent);border-radius:12px;
+    padding:14px 18px;font-size:.9rem;margin-bottom:16px;
+  }
+  .callout b{color:var(--accent-strong);}
+
+  .ok-box{
+    background:var(--ok-bg);border:1.5px solid var(--ok-line);border-radius:12px;
+    padding:14px 18px;font-size:.9rem;color:var(--ok-ink);margin-bottom:20px;
+  }
+
+  footer{border-top:1.5px solid var(--line);padding-top:14px;font-size:.82rem;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  @media print{
+    .sheet{padding:10px 16px;}
+  }
+</style>
+
+<div class="sheet">
+  <header>
+    <div class="logo">⛽</div>
+    <div>
+      <div class="name">SUITE<b>MERCOL</b></div>
+      <div class="tag">Los pasos de tu turno — guía rápida</div>
+    </div>
+  </header>
+
+  <h1>Tu turno en 6 pasos</h1>
+  <p class="subtitle">Para tener a mano. Si te olvidás de algo, mirá esta hoja antes de preguntar.</p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="n">1</span>
+      <div><div class="t">Iniciá sesión</div><div class="d">Elegí tu nombre y escribí tu clave personal. Cada turno queda a tu nombre.</div></div>
+    </div>
+    <div class="step">
+      <span class="n">2</span>
+      <div><div class="t">Abrí Aforadores (AFR)</div><div class="d">Elegí tu planilla, tu turno y tus surtidores. Cargá lo que marca cada surtidor al empezar.</div></div>
+    </div>
+    <div class="step">
+      <span class="n">3</span>
+      <div><div class="t">Entrá a Cierre de Turno (CRT)</div><div class="d">Anotá lo que vendiste (líquidos, GNC, lubricantes) y lo que rendís (efectivo, tarjetas, cuentas corrientes, pagos). Vas cargando a medida que pasa el turno.</div></div>
+    </div>
+    <div class="step">
+      <span class="n">4</span>
+      <div><div class="t">Volvé a Aforadores al cerrar</div><div class="d">Cargá la lectura final de los surtidores. El sistema calcula solo lo vendido.</div></div>
+    </div>
+    <div class="step">
+      <span class="n">5</span>
+      <div><div class="t">Guardá el Cierre .MRC</div><div class="d">Fijate si dice CUADRADO. Si dice SOBRA o FALTA, revisá tranquilo antes de confirmar — es mejor revisar ahora que después.</div></div>
+    </div>
+    <div class="step">
+      <span class="n">6</span>
+      <div><div class="t">Entrá una vez a Planilla Grupal (GRP)</div><div class="d">Así tu turno se junta con el de tus compañeros. Con eso termina tu trabajo del día.</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>Si algo no te sale a la primera:</b> no pasa nada, se puede corregir. Todo lo que cargás queda guardado con tu nombre y la hora — eso es a tu favor, para que se sepa que tu turno estuvo en orden.
+  </div>
+
+  <div class="ok-box">
+    ✅ <b>Recordá:</b> cargá lo que va pasando, no dejes todo para el final del turno. Es más fácil de a poco.
+  </div>
+
+  <footer>
+    <span>SuiteMercol — Guía rápida para operarios</span>
+    <span>Ante cualquier duda, consultá a tu encargado</span>
+  </footer>
+</div>
