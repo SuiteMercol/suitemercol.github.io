@@ -811,7 +811,6 @@
         <span class="flag">Recomendado</span>
         <div class="plan-name">Pago semestral (6 meses)</div>
         <div class="digits"><span class="cur js-cur">U$D</span><span class="num" id="p-prepago">—</span><span class="per">/ mes</span></div>
-        <div class="fine">Se abona <b><span class="js-cur">U$D</span> <span id="p-prepago-total">—</span></b> por los 6 meses, de una vez.</div>
         <div class="savings">Ahorra <span class="js-cur">U$D</span> <span id="p-savings">—</span> frente al mes a mes</div>
         <a class="btn btn-primary btn-pay" href="https://mpago.la/2udwLu7" target="_blank" rel="noopener">Suscribirme con MercadoPago</a>
       </div>
@@ -896,7 +895,6 @@
 
   function renderPricing(){
     const p = PRICING[CURRENCY];
-    const totalPrepago = p.precioMensualPrepago * PRICING.mesesPrepago;
     const ahorro = (p.mensual - p.precioMensualPrepago) * PRICING.mesesPrepago;
     const ahorroInstalacion = p.instalacionRegular - p.instalacion;
     document.getElementById('p-install').textContent = fmtMoney(p.instalacion);
@@ -905,7 +903,6 @@
     document.getElementById('p-promo-dias').textContent = PRICING.promoDias;
     document.getElementById('p-monthly').textContent = fmtMoney(p.mensual);
     document.getElementById('p-prepago').textContent = fmtMoney(p.precioMensualPrepago);
-    document.getElementById('p-prepago-total').textContent = fmtMoney(totalPrepago);
     document.getElementById('p-savings').textContent = fmtMoney(ahorro);
     document.querySelectorAll('.js-cur').forEach(function(el){ el.textContent = CUR_LABEL[CURRENCY]; });
   }
