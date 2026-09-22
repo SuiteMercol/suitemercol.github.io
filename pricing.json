@@ -3,13 +3,13 @@
   "mesesPrepago": 6,
   "usd": {
     "instalacionRegular": 366,
-    "instalacion": 332,
+    "instalacion": 160,
     "mensual": 59,
     "precioMensualPrepago": 50
   },
   "ars": {
     "instalacionRegular": 550000,
-    "instalacion": 499000,
+    "instalacion": 249000,
     "mensual": 89990,
     "precioMensualPrepago": 75990
   }
